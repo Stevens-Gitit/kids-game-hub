@@ -1,0 +1,63 @@
+name: Build and deploy game hub
+
+# Runs automatically every time you push to main. Compiles any Python/Pygame
+# games to WebAssembly with pygbag, assembles the site, and publishes it to
+# GitHub Pages. Everything here runs on GitHub's free CI minutes for public
+# repos, so this costs nothing.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # lets you manually re-run it from the Actions tab
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pygbag
+        run: python -m pip install --upgrade pip pygbag
+
+      # --- Add one build step per Python game here ---
+      - name: Build Snake (Python -> WebAssembly)
+        run: python -m pygbag --build games/snake/main.py
+
+      - name: Assemble site
+        run: |
+          mkdir -p site/games/snake
+          cp index.html style.css script.js site/
+          cp -r games/snake/build/web/* site/games/snake/
+          mkdir -p site/games/tictactoe
+          cp -r games/tictactoe/* site/games/tictactoe/
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

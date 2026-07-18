@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Family Game Hub</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>🎮 Family Game Hub</h1>
+    <p class="subtitle">Games we built together — pick a tab to play</p>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Game categories">
+    <button class="tab-button active" data-tab="arcade" role="tab" aria-selected="true">
+      🐍 Arcade
+    </button>
+    <button class="tab-button" data-tab="puzzle" role="tab" aria-selected="false">
+      ⭕ Puzzle
+    </button>
+    <button class="tab-button" data-tab="add-game" role="tab" aria-selected="false">
+      ➕ Add a Game
+    </button>
+  </nav>
+
+  <main>
+    <section id="arcade" class="tab-panel active" role="tabpanel">
+      <h2>Snake</h2>
+      <p class="game-desc">
+        Arrow keys or WASD to move. Eat the red squares, don't run into
+        yourself or the walls. Built with Python + Pygame, compiled to run
+        right in the browser.
+      </p>
+      <div class="game-frame-wrap">
+        <iframe
+          class="game-frame"
+          src="games/snake/index.html"
+          title="Snake game"
+          loading="lazy"
+        ></iframe>
+      </div>
+      <p class="tweak-hint">
+        Want to change it? Edit <code>games/snake/main.py</code> — try
+        changing <code>STARTING_SPEED</code> or the colors at the top of the
+        file.
+      </p>
+    </section>
+
+    <section id="puzzle" class="tab-panel" role="tabpanel">
+      <h2>Tic-Tac-Toe</h2>
+      <p class="game-desc">
+        Classic two-player, pass-and-play. Built with plain HTML/JavaScript
+        — no compiling needed, so it's a great first game to customize.
+      </p>
+      <div class="game-frame-wrap">
+        <iframe
+          class="game-frame"
+          src="games/tictactoe/index.html"
+          title="Tic-Tac-Toe game"
+          loading="lazy"
+        ></iframe>
+      </div>
+      <p class="tweak-hint">
+        Want to change it? Edit <code>games/tictactoe/index.html</code> —
+        try changing the colors, the board size, or add a score counter.
+      </p>
+    </section>
+
+    <section id="add-game" class="tab-panel" role="tabpanel">
+      <h2>Adding a New Game</h2>
+      <p>
+        This site has two ways to build a game, depending on how ambitious
+        you're feeling:
+      </p>
+      <h3>Option A — Simple: plain HTML/JavaScript</h3>
+      <p>
+        Good for board games, quizzes, memory match, word games. No build
+        step required.
+      </p>
+      <ol>
+        <li>Make a new folder in <code>games/</code>, e.g. <code>games/memory/</code>.</li>
+        <li>Put a self-contained <code>index.html</code> in it (see <code>games/tictactoe/index.html</code> as a template).</li>
+        <li>Add a new tab button and panel in <code>index.html</code> pointing at it (copy the Puzzle tab as a template).</li>
+        <li>No build step needed — it just works.</li>
+      </ol>
+      <h3>Option B — Python + Pygame</h3>
+      <p>
+        Good for anything with movement, collisions, or real-time action —
+        like Snake.
+      </p>
+      <ol>
+        <li>Make a new folder in <code>games/</code>, e.g. <code>games/pong/</code>, with a <code>main.py</code>.</li>
+        <li>Write it as a normal Pygame game, but use the async loop pattern from <code>games/snake/main.py</code> (required so it can run in a browser tab).</li>
+        <li>Add a build step for it in <code>.github/workflows/deploy.yml</code> (copy the Snake build step).</li>
+        <li>Add a new tab in <code>index.html</code> pointing at <code>games/pong/index.html</code>.</li>
+      </ol>
+      <p>See the top-level <code>README.md</code> for full local setup and deployment instructions.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Made with 🐍 + ❤️ — hosted free on GitHub Pages</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
