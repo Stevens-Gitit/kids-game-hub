@@ -60,7 +60,7 @@
 </style>
 </head>
 <body>
-  <div id="status">X's turn</div>
+  <div id="status">🐀 Rat's turn</div>
   <div id="board"></div>
   <button id="reset">New Game</button>
 
@@ -73,6 +73,9 @@
       [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
       [0, 4, 8], [2, 4, 6],           // diagonals
     ];
+
+    const FACES = { X: "🐀", O: "🐱" };
+    const NAMES = { X: "Rat", O: "Cat" };
 
     let board = Array(9).fill(null);
     let current = "X";
@@ -99,7 +102,7 @@
       board.forEach((value, i) => {
         const cellEl = document.createElement("div");
         cellEl.className = "cell" + (value ? " " + value.toLowerCase() : "");
-        cellEl.textContent = value || "";
+        cellEl.textContent = value ? FACES[value] : "";
         cellEl.addEventListener("click", () => handleClick(i));
         boardEl.appendChild(cellEl);
       });
@@ -113,18 +116,20 @@
       if (result) {
         gameOver = true;
         statusEl.textContent =
-          result.winner === "draw" ? "It's a draw!" : `${result.winner} wins!`;
+          result.winner === "draw"
+            ? "It's a draw!"
+            : `${FACES[result.winner]} ${NAMES[result.winner]} wins!`;
         return;
       }
       current = current === "X" ? "O" : "X";
-      statusEl.textContent = `${current}'s turn`;
+      statusEl.textContent = `${FACES[current]} ${NAMES[current]}'s turn`;
     }
 
     resetEl.addEventListener("click", () => {
       board = Array(9).fill(null);
       current = "X";
       gameOver = false;
-      statusEl.textContent = "X's turn";
+      statusEl.textContent = `${FACES[current]} ${NAMES[current]}'s turn`;
       render();
     });
 

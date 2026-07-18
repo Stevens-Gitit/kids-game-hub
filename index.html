@@ -19,6 +19,9 @@
     <button class="tab-button" data-tab="puzzle" role="tab" aria-selected="false">
       ⭕ Puzzle
     </button>
+    <button class="tab-button" data-tab="racing" role="tab" aria-selected="false">
+      🏁 Racing
+    </button>
     <button class="tab-button" data-tab="add-game" role="tab" aria-selected="false">
       ➕ Add a Game
     </button>
@@ -67,6 +70,36 @@
       </p>
     </section>
 
+    <section id="racing" class="tab-panel" role="tabpanel">
+      <h2>Ratty Boi Racing</h2>
+      <p class="game-desc">
+        3D multiplayer rat-racing — create a room, share the code, and race
+        friends on your home network. Built with Three.js + Socket.IO.
+      </p>
+      <p class="tweak-hint">
+        ⚠️ This game needs its server running on this computer first.
+        Start it with:
+        <code>node server/server.js</code> from the
+        <code>Claude Code Work</code> project folder, then come back to this
+        tab. Unlike Snake and Tic-Tac-Toe, this tab won't work if the site is
+        published to GitHub Pages without that server also running
+        somewhere reachable — see the "Add a Game" tab for why.
+      </p>
+      <div class="game-frame-wrap wide">
+        <iframe
+          class="game-frame"
+          src="http://192.168.40.24:3000"
+          title="Ratty Boi Racing game"
+          loading="lazy"
+        ></iframe>
+      </div>
+      <p class="tweak-hint">
+        Want to change it? Edit the files in
+        <code>Claude Code Work/public/</code> and
+        <code>Claude Code Work/server/server.js</code>.
+      </p>
+    </section>
+
     <section id="add-game" class="tab-panel" role="tabpanel">
       <h2>Adding a New Game</h2>
       <p>
@@ -94,6 +127,20 @@
         <li>Write it as a normal Pygame game, but use the async loop pattern from <code>games/snake/main.py</code> (required so it can run in a browser tab).</li>
         <li>Add a build step for it in <code>.github/workflows/deploy.yml</code> (copy the Snake build step).</li>
         <li>Add a new tab in <code>index.html</code> pointing at <code>games/pong/index.html</code>.</li>
+      </ol>
+      <h3>Option C — Networked/multiplayer game (needs its own server)</h3>
+      <p>
+        Good for real-time multiplayer, like the Racing tab. This is the odd
+        one out: GitHub Pages only serves static files, so it can't run a
+        live server for you. A game like this needs a real server (Node.js,
+        Socket.IO, etc.) running somewhere — either on your own computer
+        while you play, or on a separate always-on host if you want it
+        reachable outside your home network.
+      </p>
+      <ol>
+        <li>Build the game as its own standalone project with a server (see the Racing game's <code>server/server.js</code> as an example).</li>
+        <li>Point a tab's iframe at wherever that server is running, e.g. <code>http://&lt;your-computer's-LAN-IP&gt;:3000</code>.</li>
+        <li>Start the server before using that tab — this hub doesn't start it for you.</li>
       </ol>
       <p>See the top-level <code>README.md</code> for full local setup and deployment instructions.</p>
     </section>
